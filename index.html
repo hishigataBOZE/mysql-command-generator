@@ -1,0 +1,89 @@
+
+<!doctype html><html><head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js"></script><style>
+body {
+  background: #20262E;
+  padding: 20px;
+  font-family: Helvetica;
+}
+
+#app {
+  background: #eee;
+  border-radius: 4px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+li {
+  margin: 8px 0;
+}
+
+h2 {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+}
+
+del {
+  color: rgba(0, 0, 0, 0.3);
+}</style></head><body><h1>MySQL create user and role</h1>
+
+<div id="app">
+  <h2>Check already users</h2>
+  <pre>    # user list ユーザーの一覧
+    SELECT user,host FROM mysql.user;
+  </pre>
+  <br/>
+  <br/>
+
+  <h2>New user</h2>
+  <p>
+    <input v-model="dbname" type="text" placeholder="database"/>
+  </p>
+  <p>
+    <input v-model="username" type="text" placeholder="username"/>
+  </p>
+  <p>
+    <input v-model="hostname" type="text" placeholder="hostname"/>
+  </p>
+  <p>
+    <input v-model="password" type="text" placeholder="password"/>
+  </p>
+  <br/>
+  <br/>
+
+  <h2>Commands...</h2>
+
+  <h3>Create user and set role</h3>
+  <input type="text" name="create_user" :value="createUser"/>
+  <h3>Check you were created user</h3>
+  <input type="text" name="check_user"/>
+
+  <h3>Drop user</h3>
+  <input type="text" name="drop_user"/>
+</div><script>
+new Vue({
+  el: "#app",
+  data: {
+    dbname: 'database',
+    username: 'username',
+    hostname: 'hostname',
+    password: 'password',
+    grant_prefix: "GRANT",
+    grant_all: "ALL PRIVILEGES ON",
+    grant_db_suf: "TO",
+    grant_pswd_pref: "IDENTIFIED BY",
+    end: ";"
+  },
+  computed: {
+    createUser: function() {
+      var grantPref = this.grant_prefix + " " + this.grant_all;
+      var db = "`" + this.dbname + "`.*" + this.grant_db_suf;
+      var user = "`" + this.username + "`@`" + this.hostname + "`";
+      var pswd = this.grant_pswd_pref + " '" + this.password + "'";
+      return grantPref + " " + db + " " + user + " " + pswd + this.end;
+    }
+  }
+})</script></body></html>
