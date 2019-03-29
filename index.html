@@ -1,105 +1,1 @@
-<!doctype html><html>
-<head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js"></script>
-<style>
-body {
-  background: #CEDFF6;
-  padding: 20px;
-  font-family: Helvetica;
-}
-
-#app {
-  background: #eee;
-  border-radius: 4px;
-  padding: 20px;
-  transition: all 0.2s;
-}
-
-li {
-  margin: 8px 0;
-}
-
-h2 {
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-input {
-  width: 100%;
-}
-
-del {
-  color: rgba(0, 0, 0, 0.3);
-}
-</style>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-7088730287815852",
-    enable_page_level_ads: true
-  });
-</script>
-
-</head>
-<body>
-<h1>MySQL create user and role</h1>
-<div id="app">
-  <h2>Check already users</h2>
-  <pre>    # user list ユーザーの一覧
-    SELECT user,host FROM mysql.user;
-  </pre>
-  <br/>
-  <br/>
-
-  <h2>New user</h2>
-  <p>
-    <input v-model="dbname" type="text" placeholder="database"/>
-  </p>
-  <p>
-    <input v-model="username" type="text" placeholder="username"/>
-  </p>
-  <p>
-    <input v-model="hostname" type="text" placeholder="hostname"/>
-  </p>
-  <p>
-    <input v-model="password" type="text" placeholder="password"/>
-  </p>
-  <br/>
-  <br/>
-
-  <h2>Commands...</h2>
-
-  <h3>Create user and set role</h3>
-  <input type="text" name="create_user" :value="createUser"/>
-  <h3>Check you were created user</h3>
-  <input type="text" name="check_user"/>
-
-  <h3>Drop user</h3>
-  <input type="text" name="drop_user"/>
-</div><script>
-new Vue({
-  el: "#app",
-  data: {
-    dbname: 'database',
-    username: 'username',
-    hostname: 'hostname',
-    password: 'password',
-    grant_prefix: "GRANT",
-    grant_all: "ALL PRIVILEGES ON",
-    grant_db_suf: "TO",
-    grant_pswd_pref: "IDENTIFIED BY",
-    end: ";"
-  },
-  computed: {
-    createUser: function() {
-      var grantPref = this.grant_prefix + " " + this.grant_all;
-      var db = "`" + this.dbname + "`.*" + this.grant_db_suf;
-      var user = "`" + this.username + "`@`" + this.hostname + "`";
-      var pswd = this.grant_pswd_pref + " '" + this.password + "'";
-      return grantPref + " " + db + " " + user + " " + pswd + this.end;
-    }
-  }
-})</script></body></html>
+<!doctype html><html><head>  <meta charset="utf-8">  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>  <link rel="stylesheet" href="./style.css"/>  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js"></script></head><body><h1>MySQL create user and role</h1><div id="app">  <h2>First, check already users</h2>  <input type="text" name="show_user_list" :value="showUserList"/>  <br/>  <br/>  <h2>1. Input parameter</h2>  <p>    <input v-model="dbname" type="text" placeholder="database"/>    <input v-model="username" type="text" placeholder="username"/>    <input v-model="hostname" type="text" placeholder="hostname"/>    <input v-model="password" type="text" placeholder="password"/>  </p>  <br/>  <h2>2. Commands...</h2>  <h3>Create user and set role</h3>  <input type="text" name="create_user" :value="createUser"/>  <h3>Check you were created user</h3>  <input type="text" name="show_user_list" :value="showUserList"/>  <input type="text" name="check_user" :value="showGrant"/>  <h3>Drop user</h3>  <input type="text" name="drop_user" :value="dropUser"/></div><script>    new Vue({        el: "#app",        data: {            dbname: 'database',            username: 'username',            hostname: 'hostname',            password: 'password',            end: ";"        },        computed: {            createUser: function () {                var _blank = " ";                var _sqt = "`";                var grantPrefix = "GRANT";                var grantAll = "ALL PRIVILEGES ON";                var grantDbSuf = "TO";                var grantPswdPref = "IDENTIFIED BY";                var grant = grantPrefix + _blank + grantAll;                var db = _sqt + this.dbname + _sqt + ".*" + _blank + grantDbSuf;                var user = _sqt + this.username + _sqt + "@" + _sqt + this.hostname + _sqt;                var pswd = grantPswdPref + _blank + "'" + this.password + "'";                return grant + _blank + db + _blank + user + _blank + pswd + this.end;            },            showUserList: function () {                var sql = "SELECT user,host FROM mysql.user;";                return sql;            },            showGrant: function () {                var _blank = " ";                var _sqt = "`";                var showGrant = "SHOW GRANTS FOR";                var user = _sqt + this.username + _sqt + "@" + _sqt + this.hostname + _sqt;                return showGrant + _blank + user + _blank + this.end;            },            dropUser: function () {                var _blank = " ";                var _sqt = "`";                var dropPref = "DROP user";                var user = _sqt + this.username + _sqt + "@" + _sqt + this.hostname + _sqt;                return dropPref + _blank + user + _blank + this.end;            }        }    })</script></body></html>
