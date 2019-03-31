@@ -10,53 +10,119 @@
   <!-- Material Design Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.5/css/mdb.min.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  <link rel="stylesheet" href="./style.css"/>
+  <!-- <link rel="stylesheet" href="./style.css"/> -->
 </head>
 <body>
 
-<section class="text-left border border-light p-5">
-
   <h1>MySQL create user and role</h1>
-  <div id="app">
+  <div id="app" class="">
     <h2>First, check already users</h2>
-    <input type="text" name="show_user_list" class="form-control mb-4" v-model="showUserList"/>
-    <br/>
-    <br/>
+    <div class="col-md-12">
+      <div class="md-form">
+        <span class="col-md-2">
+          <a class="copy btn btn-default waves-effect waves-light" :data-clipboard-text="showUserList">Copy</a>
+        </span>
+        <input v-model="showUserList" type="text" class="col-md-8"/>
+      </div>
+    </div>
+
 
     <h2>1. Input parameter</h2>
-    <p>
-      <input v-model="dbname" type="text" class="form-control mb-4" placeholder="database"/>
-      <input v-model="username" type="text" class="form-control mb-4" placeholder="username"/>
-      <input v-model="hostname" type="text" class="form-control mb-4" placeholder="hostname"/>
-      <input v-model="password" type="text" class="form-control mb-4" placeholder="password"/>
-    </p>
-    <hr>
+    <div class="col-md-6">
+      <div class="md-form">
+        <i class="fas fa-database prefix"></i>
+        <input v-model="dbname" type="text" class="form-control mb-4" ref="targetDb" @click="$refs.targetDb.select()"/>
+        <label for="dbname" class="active">database</label>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="md-form">
+        <i class="fas fa-user prefix"></i>
+        <input v-model="username" type="text" class="form-control mb-4" ref="targetUser" @click="$refs.targetUser.select()"/>
+        <label for="username" class="active">user</label>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="md-form">
+        <i class="fas fa-laptop prefix"></i>
+        <input v-model="hostname" type="text" class="form-control mb-4" ref="targetHost" @click="$refs.targetHost.select()"/>
+        <label for="hostname" class="active">host</label>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="md-form">
+        <i class="fas fa-lock prefix"></i>
+        <input v-model="password" type="text" class="form-control mb-4" ref="targetPswd" @click="$refs.targetPswd.select()"/>
+        <label for="password" class="active">password</label>
+      </div>
+    </div>
 
     <h2>2. Commands...</h2>
 
     <h3>Create user with role(Role: DB FULL)</h3>
-    <input v-model="createFullUser" type="text" class="form-control mb-4"/>
-    <button class="btn" :data-clipboard-text="createFullUser">Copy</button>
+    <div class="col-md-12">
+      <div class="md-form">
+        <span class="col-md-2">
+          <a class="copy btn btn-default waves-effect waves-light" :data-clipboard-text="createFullUser">Copy</a>
+        </span>
+        <input v-model="createFullUser" type="text" class="col-md-8"/>
+      </div>
+    </div>
 
     <h3>Create user with role(Role: table CRUD)</h3>
-    <input v-model="createCrudUser" type="text" class="form-control mb-4"/>
+    <div class="col-md-12">
+      <div class="md-form">
+        <span class="col-md-2">
+          <a class="copy btn btn-default waves-effect waves-light" :data-clipboard-text="createCrudUser">Copy</a>
+        </span>
+        <input v-model="createCrudUser" type="text" class="col-md-8"/>
+      </div>
+    </div>
 
     <h3>Check you were created user</h3>
-    <input v-model="showUserList" type="text" class="form-control mb-4"/>
-    <input v-model="showGrant" type="text" class="form-control mb-4"/>
+    <div class="col-md-12">
+      <div class="md-form">
+        <span class="col-md-2">
+          <a class="copy btn btn-default waves-effect waves-light" :data-clipboard-text="showUserList">Copy</a>
+        </span>
+        <input v-model="showUserList" type="text" class="col-md-8"/>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="md-form">
+        <span class="col-md-2">
+          <a class="copy btn btn-default waves-effect waves-light" :data-clipboard-text="showGrant">Copy</a>
+        </span>
+        <input v-model="showGrant" type="text" class="col-md-8"/>
+      </div>
+    </div>
 
     <hr>
 
     <h3>Change Password</h3>
-    <input v-model="changePswd" type="text" class="form-control mb-4"/>
+    <div class="col-md-12">
+      <div class="md-form">
+        <span class="col-md-2">
+          <a class="copy btn btn-default waves-effect waves-light" :data-clipboard-text="changePswd">Copy</a>
+        </span>
+        <input v-model="changePswd" type="text" class="col-md-8"/>
+      </div>
+    </div>
 
     <h3>Drop user</h3>
-    <input v-model="changePswd" type="text" class="form-control mb-4"/>
+    <div class="col-md-12">
+      <div class="md-form">
+        <span class="col-md-2">
+          <a class="copy btn btn-default waves-effect waves-light" :data-clipboard-text="dropUser">Copy</a>
+        </span>
+        <input v-model="dropUser" type="text" class="col-md-8"/>
+      </div>
+    </div>
   </div>
-
-
-</section>
 
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -72,7 +138,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js"></script>
 
 <script>
-    var clipboard = new Clipboard('.btn');
+    var clipboard = new Clipboard('.copy');
 
     clipboard.on('success', function(e) {
         console.info('Action:', e.action);
@@ -85,10 +151,10 @@
     var app =   new Vue({
         el: "#app",
         data: {
-            dbname: 'database',
-            username: 'username',
-            hostname: 'hostname',
-            password: 'password',
+            dbname: '',
+            username: '',
+            hostname: '',
+            password: '',
         },
         methods: {},
         computed: {
