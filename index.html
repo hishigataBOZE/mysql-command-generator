@@ -20,7 +20,7 @@
   <h1>MySQL create user and role</h1>
   <div id="app">
     <h2>First, check already users</h2>
-    <input type="text" name="show_user_list" class="form-control mb-4" :value="showUserList"/>
+    <input type="text" name="show_user_list" class="form-control mb-4" v-model="showUserList"/>
     <br/>
     <br/>
 
@@ -36,22 +36,23 @@
     <h2>2. Commands...</h2>
 
     <h3>Create user with role(Role: DB FULL)</h3>
-    <input type="text" name="create_full_user" class="form-control mb-4" :value="createFullUser"/>
+    <input v-model="createFullUser" type="text" class="form-control mb-4"/>
+    <button class="btn" :data-clipboard-text="createFullUser">Copy</button>
 
     <h3>Create user with role(Role: table CRUD)</h3>
-    <input type="text" name="create_crud_user" class="form-control mb-4" :value="createCrudUser"/>
+    <input v-model="createCrudUser" type="text" class="form-control mb-4"/>
 
     <h3>Check you were created user</h3>
-    <input type="text" name="show_user_list" class="form-control mb-4" :value="showUserList"/>
-    <input type="text" name="check_user" class="form-control mb-4" :value="showGrant"/>
+    <input v-model="showUserList" type="text" class="form-control mb-4"/>
+    <input v-model="showGrant" type="text" class="form-control mb-4"/>
 
     <hr>
 
     <h3>Change Password</h3>
-    <input type="text" name="change_paswd" class="form-control mb-4" :value="changePswd"/>
+    <input v-model="changePswd" type="text" class="form-control mb-4"/>
 
     <h3>Drop user</h3>
-    <input type="text" name="drop_user" class="form-control mb-4" :value="dropUser"/>
+    <input v-model="changePswd" type="text" class="form-control mb-4"/>
   </div>
 
 
@@ -66,10 +67,22 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.5/js/mdb.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js"></script>
 
 <script>
-    new Vue({
+    var clipboard = new Clipboard('.btn');
+
+    clipboard.on('success', function(e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+
+        e.clearSelection();
+    });
+
+    var app =   new Vue({
         el: "#app",
         data: {
             dbname: 'database',
@@ -77,6 +90,7 @@
             hostname: 'hostname',
             password: 'password',
         },
+        methods: {},
         computed: {
             createFullUser: function () {
                 var sql = "#COMMAND# #ROLE# `#DB#`.* TO `#USER#`@`#HOST#` IDENTIFIED BY '#PSWD#';";
@@ -142,7 +156,7 @@
                 return sql;
             }
         }
-    })
+    });
   </script>
 </body>
 </html>
